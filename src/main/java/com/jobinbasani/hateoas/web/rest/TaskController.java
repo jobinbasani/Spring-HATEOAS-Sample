@@ -7,11 +7,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.mediatype.Affordances;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+import static org.springframework.hateoas.MediaTypes.HAL_FORMS_JSON_VALUE;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,7 +25,12 @@ public class TaskController {
     @GetMapping("/")
     public RepresentationModel root() {
         RepresentationModel rootModel = new RepresentationModel();
-        rootModel.add(linkTo(methodOn(this.getClass()).root()).withSelfRel(),
+        var selfLink = Affordances.of(linkTo(methodOn(this.getClass()).root()).withSelfRel())
+                .afford(HttpMethod.POST)
+                .withInputAndOutput(Task.class)
+                .withName("create-task")
+                .toLink();
+        rootModel.add(selfLink,
                 linkTo(methodOn(this.getClass()).getAllToDoItems()).withRel("task-list").withTitle("List of Tasks"));
         return rootModel;
     }
@@ -34,7 +41,7 @@ public class TaskController {
     }
 
     @PostMapping("/task-list")
-    public Task addToDo(@RequestBody Task task) {
+    public Task addTask(@RequestBody Task task) {
         return taskService.addToDo(task);
     }
 
