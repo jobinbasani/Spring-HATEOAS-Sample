@@ -1,8 +1,8 @@
 package com.jobinbasani.hateoas.web.rest;
 
-import com.jobinbasani.hateoas.entity.ToDo;
-import com.jobinbasani.hateoas.service.ToDoService;
-import com.jobinbasani.hateoas.web.assembler.ToDoAssembler;
+import com.jobinbasani.hateoas.entity.Task;
+import com.jobinbasani.hateoas.service.TaskService;
+import com.jobinbasani.hateoas.web.assembler.TaskAssembler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -18,26 +18,26 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequiredArgsConstructor
-public class ToDoController {
-    private final ToDoService toDoService;
-    private final ToDoAssembler toDoAssembler;
+public class TaskController {
+    private final TaskService taskService;
+    private final TaskAssembler taskAssembler;
 
     @GetMapping("/")
     public RepresentationModel root() {
         RepresentationModel rootModel = new RepresentationModel();
         rootModel.add(linkTo(methodOn(this.getClass()).root()).withSelfRel(),
-                linkTo(methodOn(this.getClass()).getAllToDoItems()).withRel("todo-list").withTitle("List of To Do items"));
+                linkTo(methodOn(this.getClass()).getAllToDoItems()).withRel("task-list").withTitle("List of Tasks"));
         return rootModel;
     }
 
-    @GetMapping("/todo-list")
-    public ResponseEntity<CollectionModel<EntityModel<ToDo>>> getAllToDoItems() {
-        return ResponseEntity.ok(toDoAssembler.toCollectionModel(toDoService.getAllToDoItems()));
+    @GetMapping("/task-list")
+    public ResponseEntity<CollectionModel<EntityModel<Task>>> getAllToDoItems() {
+        return ResponseEntity.ok(taskAssembler.toCollectionModel(taskService.getAllToDoItems()));
     }
 
-    @PostMapping("/todo-list")
-    public ToDo addToDo(@RequestBody ToDo toDo) {
-        return toDoService.addToDo(toDo);
+    @PostMapping("/task-list")
+    public Task addToDo(@RequestBody Task task) {
+        return taskService.addToDo(task);
     }
 
 }

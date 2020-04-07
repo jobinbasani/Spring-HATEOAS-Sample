@@ -1,7 +1,7 @@
 package com.jobinbasani.hateoas.web.assembler;
 
-import com.jobinbasani.hateoas.entity.ToDo;
-import com.jobinbasani.hateoas.web.rest.ToDoController;
+import com.jobinbasani.hateoas.entity.Task;
+import com.jobinbasani.hateoas.web.rest.TaskController;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.SimpleRepresentationModelAssembler;
@@ -11,17 +11,17 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
-public class ToDoAssembler implements SimpleRepresentationModelAssembler<ToDo> {
+public class TaskAssembler implements SimpleRepresentationModelAssembler<Task> {
     @Override
-    public void addLinks(EntityModel<ToDo> resource) {
+    public void addLinks(EntityModel<Task> resource) {
 
     }
 
     @Override
-    public void addLinks(CollectionModel<EntityModel<ToDo>> resources) {
-        resources.add(linkTo(methodOn(ToDoController.class)
+    public void addLinks(CollectionModel<EntityModel<Task>> resources) {
+        resources.add(linkTo(methodOn(TaskController.class)
                 .getAllToDoItems())
                 .withSelfRel());
-        resources.add(linkTo(methodOn(ToDoController.class).root()).withRel("root"));
+        resources.add(linkTo(methodOn(TaskController.class).root()).withRel("root"));
     }
 }
