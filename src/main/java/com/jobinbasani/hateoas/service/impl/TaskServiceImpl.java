@@ -1,5 +1,7 @@
 package com.jobinbasani.hateoas.service.impl;
 
+import com.jobinbasani.hateoas.dto.CreateTaskDto;
+import com.jobinbasani.hateoas.dto.TaskInfoDto;
 import com.jobinbasani.hateoas.entity.Task;
 import com.jobinbasani.hateoas.repository.TaskRepository;
 import com.jobinbasani.hateoas.service.TaskService;
@@ -16,22 +18,23 @@ public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
 
     @Override
-    public List<Task> getAllToDoItems() {
+    public List<Task> getAllTasks() {
         return taskRepository.findAll();
     }
 
     @Override
-    public Task addToDo(Task task) {
-        return taskRepository.save(task);
+    public TaskInfoDto createTask(CreateTaskDto createTask) {
+        Task task = taskRepository.save(new Task(createTask));
+        return new TaskInfoDto(task);
     }
 
     @Override
-    public Optional<Task> getToDo(Integer id) {
+    public Optional<Task> getTask(Integer id) {
         return taskRepository.findById(id);
     }
 
     @Override
-    public void deleteToDo(Task task) {
+    public void deleteTask(Task task) {
         taskRepository.delete(task);
     }
 }

@@ -1,13 +1,15 @@
 package com.jobinbasani.hateoas.service;
 
+import com.jobinbasani.hateoas.dto.CreateTaskDto;
+import com.jobinbasani.hateoas.dto.TaskInfoDto;
 import com.jobinbasani.hateoas.entity.Task;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface TaskService {
-    List<Task> getAllToDoItems();
-    Task addToDo(Task task);
-    Optional<Task> getToDo(Integer id);
-    void deleteToDo(Task task);
+    List<Task> getAllTasks();
+    TaskInfoDto createTask(CreateTaskDto task);
+    Optional<Task> getTask(Integer id);
+    void deleteTask(Task task);
 }

@@ -20,8 +20,8 @@ public class TaskAssembler implements SimpleRepresentationModelAssembler<Task> {
     @Override
     public void addLinks(CollectionModel<EntityModel<Task>> resources) {
         resources.add(linkTo(methodOn(TaskController.class)
-                .getAllToDoItems())
+                .getTasks())
                 .withSelfRel());
-        resources.add(linkTo(methodOn(TaskController.class).root()).withRel("root"));
+        resources.add(linkTo(methodOn(TaskController.class).getTasks()).withRel("root"));
     }
 }

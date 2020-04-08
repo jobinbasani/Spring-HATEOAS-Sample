@@ -1,24 +1,29 @@
 package com.jobinbasani.hateoas.entity;
 
+import com.jobinbasani.hateoas.dto.CreateTaskDto;
+import com.jobinbasani.hateoas.enums.TaskStatus;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import java.time.LocalDate;
+import javax.persistence.*;
 
 import static javax.persistence.GenerationType.AUTO;
 
-@Entity
 @Data
+@Entity
 @NoArgsConstructor
 public class Task {
     @Id
     @GeneratedValue(strategy = AUTO)
     private Integer id;
     private String name;
-    private String details;
-    private LocalDate dueDate;
-    private boolean isComplete;
+    private String description;
+    @Enumerated(EnumType.STRING)
+    private TaskStatus taskStatus;
+
+    public Task(CreateTaskDto createTask){
+        this.name = createTask.getName();
+        this.description = createTask.getDescription();
+        taskStatus = TaskStatus.OPEN;
+    }
 }

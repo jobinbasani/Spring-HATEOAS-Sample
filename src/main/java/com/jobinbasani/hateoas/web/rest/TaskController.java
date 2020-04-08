@@ -1,19 +1,22 @@
 package com.jobinbasani.hateoas.web.rest;
 
+import com.jobinbasani.hateoas.dto.CreateTaskDto;
+import com.jobinbasani.hateoas.dto.TaskInfoDto;
 import com.jobinbasani.hateoas.entity.Task;
 import com.jobinbasani.hateoas.service.TaskService;
 import com.jobinbasani.hateoas.web.assembler.TaskAssembler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.QueryParameter;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.mediatype.Affordances;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static org.springframework.hateoas.MediaTypes.HAL_FORMS_JSON_VALUE;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,20 +32,25 @@ public class TaskController {
                 .afford(HttpMethod.POST)
                 .withInputAndOutput(Task.class)
                 .withName("create-task")
+                .andAfford(HttpMethod.GET)
+                .withOutput(TaskInfoDto.class)
+                .addParameters(QueryParameter.optional("search"),
+                        QueryParameter.optional("status"))
+                .withName("search")
                 .toLink();
         rootModel.add(selfLink,
-                linkTo(methodOn(this.getClass()).getAllToDoItems()).withRel("task-list").withTitle("List of Tasks"));
+                linkTo(methodOn(this.getClass()).getTasks()).withRel("task-list").withTitle("List of Tasks"));
         return rootModel;
     }
 
     @GetMapping("/task-list")
-    public ResponseEntity<CollectionModel<EntityModel<Task>>> getAllToDoItems() {
-        return ResponseEntity.ok(taskAssembler.toCollectionModel(taskService.getAllToDoItems()));
+    public ResponseEntity<CollectionModel<EntityModel<Task>>> getTasks() {
+        return ResponseEntity.ok(taskAssembler.toCollectionModel(taskService.getAllTasks()));
     }
 
     @PostMapping("/task-list")
-    public Task addTask(@RequestBody Task task) {
-        return taskService.addToDo(task);
+    public TaskInfoDto addTask(@RequestBody CreateTaskDto task) {
+        return taskService.createTask(task);
     }
 
 }
