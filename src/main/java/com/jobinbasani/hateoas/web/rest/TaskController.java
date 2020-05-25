@@ -36,6 +36,14 @@ public class TaskController {
         return ResponseEntity.ok(entityModels);
     }
 
+    @GetMapping("/task/{id}")
+    public ResponseEntity<EntityModel<Task>> getTask(@PathVariable("id") Integer id){
+        return taskService.getTask(id)
+                .map(taskAssembler::toModel)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
     @PostMapping("/task-list")
     public TaskInfoDto addTask(@RequestBody CreateTaskDto task) {
         return taskService.createTask(task);

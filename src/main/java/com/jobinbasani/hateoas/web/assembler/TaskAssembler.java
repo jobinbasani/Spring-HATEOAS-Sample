@@ -13,7 +13,11 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 public class TaskAssembler implements SimpleRepresentationModelAssembler<Task> {
     @Override
     public void addLinks(EntityModel<Task> resource) {
-
+        resource.add(
+                linkTo(methodOn(TaskController.class).root()).withRel("root"),
+                linkTo(methodOn(TaskController.class).getTask(resource.getContent().getId())).withSelfRel()
+                        .andAffordance(afford(methodOn(TaskController.class).addTask(null))).withName("createTask")
+        );
     }
 
     @Override
@@ -21,7 +25,7 @@ public class TaskAssembler implements SimpleRepresentationModelAssembler<Task> {
         resources.add(linkTo(methodOn(TaskController.class)
                 .getTasks())
                 .withSelfRel()
-                .andAffordance(afford(methodOn(TaskController.class).addTask(null))));
+                .andAffordance(afford(methodOn(TaskController.class).addTask(null))).withName("createTask"));
         resources.add(linkTo(methodOn(TaskController.class).root()).withRel("root"));
     }
 }
