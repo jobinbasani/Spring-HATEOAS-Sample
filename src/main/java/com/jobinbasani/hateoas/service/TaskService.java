@@ -11,5 +11,5 @@ public interface TaskService {
     List<Task> getAllTasks();
     TaskInfoDto createTask(CreateTaskDto task);
     Optional<Task> getTask(Integer id);
-    void deleteTask(Task task);
+    Optional<Task> deleteTask(Integer id);
 }

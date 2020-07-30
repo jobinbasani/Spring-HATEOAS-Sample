@@ -17,6 +17,7 @@ public class TaskAssembler implements SimpleRepresentationModelAssembler<Task> {
                 linkTo(methodOn(TaskController.class).root()).withRel("root"),
                 linkTo(methodOn(TaskController.class).getTask(resource.getContent().getId())).withSelfRel()
                         .andAffordance(afford(methodOn(TaskController.class).addTask(null))).withName("createTask")
+                        .andAffordance(afford(methodOn(TaskController.class).deleteTask(resource.getContent().getId()))).withName("deleteTask")
         );
     }
 

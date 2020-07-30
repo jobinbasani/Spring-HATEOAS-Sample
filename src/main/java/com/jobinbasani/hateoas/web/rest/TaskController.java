@@ -44,6 +44,13 @@ public class TaskController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @DeleteMapping("/task/{id}")
+    public ResponseEntity<Task> deleteTask(@PathVariable("id") Integer id){
+        return taskService.deleteTask(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
     @PostMapping("/task-list")
     public TaskInfoDto addTask(@RequestBody CreateTaskDto task) {
         return taskService.createTask(task);
