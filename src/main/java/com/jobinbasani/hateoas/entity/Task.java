@@ -1,11 +1,12 @@
 package com.jobinbasani.hateoas.entity;
 
-import com.jobinbasani.hateoas.dto.CreateTaskDto;
-import com.jobinbasani.hateoas.enums.TaskStatus;
+import com.jobinbasani.hateoas.dto.CreateUpdateTaskDto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 import static javax.persistence.GenerationType.AUTO;
 
@@ -18,12 +19,9 @@ public class Task {
     private Integer id;
     private String name;
     private String description;
-    @Enumerated(EnumType.STRING)
-    private TaskStatus taskStatus;
 
-    public Task(CreateTaskDto createTask){
+    public Task(CreateUpdateTaskDto createTask){
         this.name = createTask.getName();
         this.description = createTask.getDescription();
-        taskStatus = TaskStatus.OPEN;
     }
 }

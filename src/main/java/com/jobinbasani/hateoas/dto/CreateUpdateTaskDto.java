@@ -5,7 +5,7 @@ import lombok.Data;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class CreateTaskDto {
+public class CreateUpdateTaskDto {
     @NotNull
     private String name;
     @NotNull

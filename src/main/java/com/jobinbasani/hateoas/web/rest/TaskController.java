@@ -1,6 +1,6 @@
 package com.jobinbasani.hateoas.web.rest;
 
-import com.jobinbasani.hateoas.dto.CreateTaskDto;
+import com.jobinbasani.hateoas.dto.CreateUpdateTaskDto;
 import com.jobinbasani.hateoas.dto.TaskInfoDto;
 import com.jobinbasani.hateoas.entity.Task;
 import com.jobinbasani.hateoas.service.TaskService;
@@ -51,8 +51,15 @@ public class TaskController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @PutMapping("/task/{id}")
+    public ResponseEntity<TaskInfoDto> updateTask(@PathVariable("id") Integer id, @RequestBody CreateUpdateTaskDto updatedTask){
+        return taskService.updateTask(id,updatedTask)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
     @PostMapping("/task-list")
-    public TaskInfoDto addTask(@RequestBody CreateTaskDto task) {
+    public TaskInfoDto addTask(@RequestBody CreateUpdateTaskDto task) {
         return taskService.createTask(task);
     }
 

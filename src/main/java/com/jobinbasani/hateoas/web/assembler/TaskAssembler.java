@@ -16,8 +16,8 @@ public class TaskAssembler implements SimpleRepresentationModelAssembler<Task> {
         resource.add(
                 linkTo(methodOn(TaskController.class).root()).withRel("root"),
                 linkTo(methodOn(TaskController.class).getTask(resource.getContent().getId())).withSelfRel()
-                        .andAffordance(afford(methodOn(TaskController.class).addTask(null))).withName("createTask")
-                        .andAffordance(afford(methodOn(TaskController.class).deleteTask(resource.getContent().getId()))).withName("deleteTask")
+                        .andAffordance(afford(methodOn(TaskController.class).deleteTask(resource.getContent().getId())))
+                        .andAffordance(afford(methodOn(TaskController.class).updateTask(resource.getContent().getId(),null)))
         );
     }
 
@@ -26,7 +26,7 @@ public class TaskAssembler implements SimpleRepresentationModelAssembler<Task> {
         resources.add(linkTo(methodOn(TaskController.class)
                 .getTasks())
                 .withSelfRel()
-                .andAffordance(afford(methodOn(TaskController.class).addTask(null))).withName("createTask"));
+                .andAffordance(afford(methodOn(TaskController.class).addTask(null))));
         resources.add(linkTo(methodOn(TaskController.class).root()).withRel("root"));
     }
 }
